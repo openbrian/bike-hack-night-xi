@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+
+    <title>markdeck scaffold</title>
+
+    <meta name="description" content="markdeck scaffold" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <link rel="stylesheet" href="assets/3rdparty/reveal.js/css/reveal.css" />
+    <link rel="stylesheet" href="assets/3rdparty/reveal.js/css/theme/simple.css" id="theme" />
+
+    <link rel="stylesheet" href="assets/markdeck/styles/zenburn.css" />
+
+        <link rel="stylesheet" href="assets/markdeck/css/markdeck.revealjs.css" />
+    <link rel="stylesheet" href="assets/css/slides.css" />
+
+    <script>
+        window.pdf_render = window.location.search.match(/render=pdf/gi) != null;
+        if (window.pdf_render) {
+            document.write('<link rel="stylesheet" href="assets/css/render-pdf.css" type="text/css">');
+        }
+    </script>
+
+    <link href="assets/css/rerendering.css" rel="stylesheet"></link>
+
+
+</head>
+<body>
+
+
+    <div class="rerendering-message"><h1>R E R E N D E R I N G</h1></div>
+    <div class="markdeck-logo"><a href="https://github.com/arnehilmann/markdeck">powered by markdeck</a></div>
+
+    <div class="reveal">
+        <div class="slides">
+
+<section id="dc-bike-lanes-in-openstreetmap" class="level1" data-bg="#eee" data-background="#eee">
+<h1>DC Bike Lanes in OpenStreetMap</h1>
+<p>Bike Hack Night XI</p>
+<p>Brian DeRocher</p>
+<p>2019-10-16</p>
+</section>
+<section id="introduction" class="level1" data-bg="#eee" data-background="#eee">
+<h1>Introduction</h1>
+<ul>
+<li>DC DDOT discovers that PeopleForBikes will be doing a Bicycle Network Analysis</li>
+<li>Will use OpenStreetMap</li>
+<li>Top 8 scores range from 63 to 87</li>
+<li>Mike Goodno, James Graham from DC DDOT reach out to MappingDC</li>
+</ul>
+</section>
+<section id="data" class="level1" data-bg="#eee" data-background="#eee">
+<h1>Data</h1>
+<p>1,500 Features (segment of bike lane)</p>
+<p>Importable? No</p>
+<p>1,500 / 50 = 30 hours</p>
+</section>
+<section id="workflow" class="level1" data-bg="#eee" data-background="#eee">
+<h1>Workflow</h1>
+<ol type="1">
+<li>Pick a feature in tracking sheet</li>
+<li>Switch to shapefile layer in JOSM</li>
+<li>control-f (find object) where OBJECTID=???</li>
+<li>Switch to data layer in JOSM</li>
+<li>Download OSM data for a few blocks</li>
+<li>Compare/Add attributes</li>
+</ol>
+</section>
+<section id="mapping-volcabulary" class="level1" data-bg="#eee" data-background="#eee">
+<h1>Mapping Volcabulary</h1>
+<table>
+<thead>
+<tr class="header">
+<th>DDOT</th>
+<th>OpenStreetMap</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>existing bike lane</td>
+<td>cycleway={lane|left|right}</td>
+</tr>
+<tr class="even">
+<td>shared bike lanes</td>
+<td>cycleway=shared</td>
+</tr>
+<tr class="odd">
+<td>cycle track</td>
+<td>cycleway=lane</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="osm-node-attributes" class="level1" data-bg="#eee" data-background="#eee">
+<h1>OSM Node Attributes</h1>
+<table>
+<thead>
+<tr class="header">
+<th>name</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>cycleway</td>
+<td>lane</td>
+</tr>
+<tr class="even">
+<td>highway</td>
+<td>secondary</td>
+</tr>
+<tr class="odd">
+<td>lanes</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>lcn</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td>name</td>
+<td>East Capitol Street Northeast</td>
+</tr>
+<tr class="even">
+<td>railway</td>
+<td>abandoned_tram</td>
+</tr>
+<tr class="odd">
+<td>sidewalk</td>
+<td>both</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="splitting-ways" class="level1" data-bg="#eee" data-background="#eee">
+<h1>Splitting Ways</h1>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="460" height="160" version="1.1">
+    <defs>
+        <filter id="dsFilterNoBlur" width="150%" height="150%">
+            <feOffset dx="3" dy="3" in="SourceGraphic" result="offOut"/>
+            <feColorMatrix in="offOut" result="matrixOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0"/>
+            <feBlend in="SourceGraphic" in2="matrixOut" mode="normal"/>
+        </filter>
+        <filter id="dsFilter" width="150%" height="150%">
+            <feOffset dx="3" dy="3" in="SourceGraphic" result="offOut"/>
+            <feColorMatrix in="offOut" result="matrixOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0"/>
+            <feGaussianBlur in="matrixOut" result="blurOut" stdDeviation="3"/>
+            <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
+        </filter>
+        <marker id="iPointer" fill="#000" markerHeight="7" markerUnits="strokeWidth" markerWidth="8" orient="auto" refX="5" refY="5" viewBox="0 0 10 10">
+            <path d="M10 0v10L0 5z"/>
+        </marker>
+        <marker id="Pointer" fill="#000" markerHeight="7" markerUnits="strokeWidth" markerWidth="8" orient="auto" refX="5" refY="5" viewBox="0 0 10 10">
+            <path d="M0 0l10 5-10 5z"/>
+        </marker>
+    </defs>
+    <g id="boxes" fill="none" stroke="#000" stroke-width="2">
+        <g id="group0">
+            <path id="path0" fill="#fff" d="M58.5 56h36v32h-36z" filter="url(#dsFilter)"/>
+            <text id="text0" x="71.1" y="76.8" fill="#000" stroke="none" font-family="Consolas,Monaco,Anonymous Pro,Anonymous,Bitstream Sans Mono,monospace" font-size="15.2">
+                5
+            </text>
+        </g>
+        <g id="group2">
+            <path id="path2" fill="#fff" d="M157.5 56h36v32h-36z" filter="url(#dsFilter)"/>
+            <text id="text1" x="170.1" y="76.8" fill="#000" stroke="none" font-family="Consolas,Monaco,Anonymous Pro,Anonymous,Bitstream Sans Mono,monospace" font-size="15.2">
+                6
+            </text>
+        </g>
+        <g id="group4">
+            <path id="path4" fill="#fff" d="M355.5 56h36v32h-36z" filter="url(#dsFilter)"/>
+            <text id="text2" x="368.1" y="76.8" fill="#000" stroke="none" font-family="Consolas,Monaco,Anonymous Pro,Anonymous,Bitstream Sans Mono,monospace" font-size="15.2">
+                7
+            </text>
+        </g>
+    </g>
+    <g id="lines" fill="none" stroke="#000" stroke-width="2">
+        <g id="group16">
+            <path id="path16" d="M4.5 72h45"/>
+        </g>
+        <g id="group92">
+            <path id="path92" d="M76.5 8v32"/>
+        </g>
+        <g id="group98">
+            <path id="path98" d="M76.5 104v32"/>
+        </g>
+        <g id="group126">
+            <path id="path126" d="M103.5 72h45"/>
+        </g>
+        <g id="group202">
+            <path id="path202" d="M175.5 8v32"/>
+        </g>
+        <g id="group208">
+            <path id="path208" d="M175.5 104v32"/>
+        </g>
+        <g id="group236">
+            <path id="path236" d="M202.5 72h144"/>
+        </g>
+        <g id="group422">
+            <path id="path422" d="M373.5 8v32"/>
+        </g>
+        <g id="group456">
+            <path id="path456" d="M400.5 72h45"/>
+        </g>
+    </g>
+</svg>
+</p>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="460" height="160" version="1.1">
+    <defs>
+        <filter id="dsFilterNoBlur" width="150%" height="150%">
+            <feOffset dx="3" dy="3" in="SourceGraphic" result="offOut"/>
+            <feColorMatrix in="offOut" result="matrixOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0"/>
+            <feBlend in="SourceGraphic" in2="matrixOut" mode="normal"/>
+        </filter>
+        <filter id="dsFilter" width="150%" height="150%">
+            <feOffset dx="3" dy="3" in="SourceGraphic" result="offOut"/>
+            <feColorMatrix in="offOut" result="matrixOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0"/>
+            <feGaussianBlur in="matrixOut" result="blurOut" stdDeviation="3"/>
+            <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
+        </filter>
+        <marker id="iPointer" fill="#000" markerHeight="7" markerUnits="strokeWidth" markerWidth="8" orient="auto" refX="5" refY="5" viewBox="0 0 10 10">
+            <path d="M10 0v10L0 5z"/>
+        </marker>
+        <marker id="Pointer" fill="#000" markerHeight="7" markerUnits="strokeWidth" markerWidth="8" orient="auto" refX="5" refY="5" viewBox="0 0 10 10">
+            <path d="M0 0l10 5-10 5z"/>
+        </marker>
+    </defs>
+    <g id="boxes" fill="none" stroke="#000" stroke-width="2">
+        <g id="group0">
+            <path id="path0" fill="#fff" d="M58.5 56h36v32h-36z" filter="url(#dsFilter)"/>
+            <text id="text0" x="71.1" y="76.8" fill="#000" stroke="none" font-family="Consolas,Monaco,Anonymous Pro,Anonymous,Bitstream Sans Mono,monospace" font-size="15.2">
+                5
+            </text>
+        </g>
+        <g id="group2">
+            <path id="path2" fill="#fff" d="M157.5 56h36v32h-36z" filter="url(#dsFilter)"/>
+            <text id="text1" x="170.1" y="76.8" fill="#000" stroke="none" font-family="Consolas,Monaco,Anonymous Pro,Anonymous,Bitstream Sans Mono,monospace" font-size="15.2">
+                6
+            </text>
+        </g>
+        <g id="group4">
+            <path id="path4" fill="#fff" d="M256.5 56h36v32h-36z" filter="url(#dsFilter)"/>
+            <text id="text2" x="269.1" y="76.8" fill="#000" stroke="none" font-family="Consolas,Monaco,Anonymous Pro,Anonymous,Bitstream Sans Mono,monospace" font-size="15.2">
+                2
+            </text>
+        </g>
+        <g id="group6">
+            <path id="path6" fill="#fff" d="M355.5 56h36v32h-36z" filter="url(#dsFilter)"/>
+            <text id="text3" x="368.1" y="76.8" fill="#000" stroke="none" font-family="Consolas,Monaco,Anonymous Pro,Anonymous,Bitstream Sans Mono,monospace" font-size="15.2">
+                7
+            </text>
+        </g>
+    </g>
+    <g id="lines" fill="none" stroke="#000" stroke-width="2">
+        <g id="group20">
+            <path id="path20" d="M4.5 72h45"/>
+        </g>
+        <g id="group96">
+            <path id="path96" d="M76.5 8v32"/>
+        </g>
+        <g id="group102">
+            <path id="path102" d="M76.5 104v32"/>
+        </g>
+        <g id="group130">
+            <path id="path130" d="M103.5 72h45"/>
+        </g>
+        <g id="group206">
+            <path id="path206" d="M175.5 8v32"/>
+        </g>
+        <g id="group212">
+            <path id="path212" d="M175.5 104v32"/>
+        </g>
+        <g id="group240">
+            <path id="path240" d="M202.5 72h45"/>
+        </g>
+        <g id="group350">
+            <path id="path350" d="M301.5 72h45"/>
+        </g>
+        <g id="group426">
+            <path id="path426" d="M373.5 8v32"/>
+        </g>
+        <g id="group460">
+            <path id="path460" d="M400.5 72h45"/>
+        </g>
+    </g>
+</svg>
+</p>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<p>80% of OSM bike lanes already there</p>
+<p>DC score now 37</p>
+</section>
+<section id="contact" class="level1" data-bg="#eee" data-background="#eee">
+<h1>Contact</h1>
+<p>Brian DeRocher</p>
+<p><span class="citation" data-cites="openrbrian">@openrbrian</span></p>
+<p>MappingDC</p>
+</section>
+
+        </div>
+    </div>
+
+    <script src="assets/3rdparty/jquery.js"></script>
+
+    <script src="assets/3rdparty/reveal.js/lib/js/head.min.js"></script>
+    <script src="assets/3rdparty/reveal.js/js/reveal.js"></script>
+
+    <script>
+        // Full list of configuration options available here:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: 'true',
+            controlsTutorial: '',
+            controlsLayout: 'bottom-right',
+            controlsBackArrows: 'faded',
+            progress: 'true',
+            defaultTiming: '120',
+            slideNumber: 'true',
+            history: 'true',
+            keyboard: 'true',
+            overview: 'true',
+            center: 'true',
+            touch: 'true',
+            loop: '',
+            rtl: '',
+            shuffle: '',
+            fragments: 'true',
+            embedded: '',
+            help: 'true',
+            showNotes: '',
+            autoPlayMedia: 'null',
+
+            autoSlide: (window.pdf_render) ? 0 : 0,
+
+            autoSlideStoppable: 'true',
+            autoSlideMethod: 'Reveal.navigateNext',
+            mouseWheel: '',
+            hideAddressBar: 'true',
+            previewLinks: '',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+
+            theme: 'simple',
+
+            // Optional libraries used to extend on reveal.js
+            dependencies: [
+                { src: 'assets/3rdparty/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                { src: 'assets/markdeck/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                { src: 'assets/3rdparty/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                { src: 'assets/3rdparty/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+            ]
+        });
+    </script>
+
+    
+    <script src="assets/markdeck/revealjs-helper.js"></script>
+    <script>
+        flushleft(".slides .flushleft");
+    </script>
+
+
+</body>
+</html>

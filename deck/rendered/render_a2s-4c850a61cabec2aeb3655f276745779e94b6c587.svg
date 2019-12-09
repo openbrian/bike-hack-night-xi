@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="160" version="1.1">
+    <defs>
+        <filter id="dsFilterNoBlur" width="150%" height="150%">
+            <feOffset dx="3" dy="3" in="SourceGraphic" result="offOut"/>
+            <feColorMatrix in="offOut" result="matrixOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0"/>
+            <feBlend in="SourceGraphic" in2="matrixOut" mode="normal"/>
+        </filter>
+        <filter id="dsFilter" width="150%" height="150%">
+            <feOffset dx="3" dy="3" in="SourceGraphic" result="offOut"/>
+            <feColorMatrix in="offOut" result="matrixOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0"/>
+            <feGaussianBlur in="matrixOut" result="blurOut" stdDeviation="3"/>
+            <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
+        </filter>
+        <marker id="iPointer" fill="#000" markerHeight="7" markerUnits="strokeWidth" markerWidth="8" orient="auto" refX="5" refY="5" viewBox="0 0 10 10">
+            <path d="M10 0v10L0 5z"/>
+        </marker>
+        <marker id="Pointer" fill="#000" markerHeight="7" markerUnits="strokeWidth" markerWidth="8" orient="auto" refX="5" refY="5" viewBox="0 0 10 10">
+            <path d="M0 0l10 5-10 5z"/>
+        </marker>
+    </defs>
+    <g id="boxes" fill="none" stroke="#000" stroke-width="2">
+        <g id="group0">
+            <path id="path0" fill="#fff" d="M58.5 56h36v32h-36z" filter="url(#dsFilter)"/>
+            <text id="text0" x="71.1" y="76.8" fill="#000" stroke="none" font-family="Consolas,Monaco,Anonymous Pro,Anonymous,Bitstream Sans Mono,monospace" font-size="15.2">
+                5
+            </text>
+        </g>
+        <g id="group2">
+            <path id="path2" fill="#fff" d="M157.5 56h36v32h-36z" filter="url(#dsFilter)"/>
+            <text id="text1" x="170.1" y="76.8" fill="#000" stroke="none" font-family="Consolas,Monaco,Anonymous Pro,Anonymous,Bitstream Sans Mono,monospace" font-size="15.2">
+                6
+            </text>
+        </g>
+        <g id="group4">
+            <path id="path4" fill="#fff" d="M355.5 56h36v32h-36z" filter="url(#dsFilter)"/>
+            <text id="text2" x="368.1" y="76.8" fill="#000" stroke="none" font-family="Consolas,Monaco,Anonymous Pro,Anonymous,Bitstream Sans Mono,monospace" font-size="15.2">
+                7
+            </text>
+        </g>
+    </g>
+    <g id="lines" fill="none" stroke="#000" stroke-width="2">
+        <g id="group16">
+            <path id="path16" d="M4.5 72h45"/>
+        </g>
+        <g id="group92">
+            <path id="path92" d="M76.5 8v32"/>
+        </g>
+        <g id="group98">
+            <path id="path98" d="M76.5 104v32"/>
+        </g>
+        <g id="group126">
+            <path id="path126" d="M103.5 72h45"/>
+        </g>
+        <g id="group202">
+            <path id="path202" d="M175.5 8v32"/>
+        </g>
+        <g id="group208">
+            <path id="path208" d="M175.5 104v32"/>
+        </g>
+        <g id="group236">
+            <path id="path236" d="M202.5 72h144"/>
+        </g>
+        <g id="group422">
+            <path id="path422" d="M373.5 8v32"/>
+        </g>
+        <g id="group456">
+            <path id="path456" d="M400.5 72h45"/>
+        </g>
+    </g>
+</svg>
